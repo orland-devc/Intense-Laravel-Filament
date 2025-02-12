@@ -1,0 +1,14 @@
+@import '../../../../vendor/filament/filament/resources/css/theme.css';
+
+/* Custom styles */
+.fi-sidebar {
+    @apply bg-primary-800;
+}
+
+.fi-sidebar-header {
+    @apply bg-primary-900;
+}
+
+.fi-sidebar-item-active {
+    @apply bg-primary-700;
+}
