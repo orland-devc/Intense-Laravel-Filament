@@ -6,13 +6,16 @@ use App\Models\Post;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Illuminate\Support\Collection;
 
 class PostsExport implements FromCollection, WithHeadings, WithMapping
 {
+    protected $data;
     protected $columns;
 
-    public function __construct(array $columns = null)
+    public function __construct(?Collection $data = null, ?array $columns = null)
     {
+        $this->data = $data;
         $this->columns = $columns ?? [
             'id' => 'ID',
             'title' => 'Title',
@@ -25,7 +28,7 @@ class PostsExport implements FromCollection, WithHeadings, WithMapping
 
     public function collection()
     {
-        return Post::all();
+        return $this->data ?? Post::all();
     }
 
     public function headings(): array
@@ -37,10 +40,14 @@ class PostsExport implements FromCollection, WithHeadings, WithMapping
     {
         $mapped = [];
         foreach (array_keys($this->columns) as $column) {
-            $value = $post->{$column};
+            $value = $post[$column] ?? $post->$column;
+            
             if (in_array($column, ['created_at', 'updated_at']) && $value) {
-                $value = $value->format('Y-m-d H:i:s');
+                $value = $value instanceof \Carbon\Carbon 
+                    ? $value->format('Y-m-d H:i:s')
+                    : \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s');
             }
+            
             $mapped[] = $value;
         }
         return $mapped;

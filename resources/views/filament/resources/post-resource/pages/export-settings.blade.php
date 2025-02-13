@@ -24,7 +24,6 @@
                 'created_at' => 'Created At',
                 'updated_at' => 'Updated At',
             ]"
-            required
         />
     </x-filament-forms::field-wrapper>
 </x-filament::form>
