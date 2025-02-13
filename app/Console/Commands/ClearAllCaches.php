@@ -12,14 +12,17 @@ class ClearAllCaches extends Command
      *
      * @var string
      */
-    protected $signature = 'app:clear-all-caches';
+    // protected $signature = 'app:clear-all-caches';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    // protected $description = 'Command description';
+
+    protected $signature = 'cache:clear-all';
+    protected $description = 'Clear all caches (view, route, config, application)';
 
     /**
      * Execute the console command.
